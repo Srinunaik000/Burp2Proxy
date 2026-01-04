@@ -1,0 +1,3 @@
+mitmproxy
+tkhtmlview
+Pillow<10.0.0
