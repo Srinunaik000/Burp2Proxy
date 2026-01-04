@@ -1,7 +1,5 @@
 # Burp2Proxy
 
-# Burp2Proxy
-
 A minimal, lightweight HTTP/HTTPS interception proxy for Windows, designed for bug bounty hunters with low-spec laptops. It provides only the essential features to avoid the bloat and performance overhead of tools like Burp Suite.
 
 ## Features
