@@ -10,7 +10,7 @@ Burp2Proxy is a powerful, Python-based web interception proxy designed for penet
 
 *   **🛡️ HTTP/HTTPS Proxy**: Intercept, inspect, and modify web traffic in real-time. Supports full HTTPS decryption.
 *   **🔁 Repeater**: Manually modify and resend requests to test for vulnerabilities like SQL Injection, XSS, and IDOR.
-*   **🤖 AI Assistant**: Integrated with Google Gemini (GenAI) to analyze requests/responses and suggest potential vulnerabilities or payloads.
+*   **🤖 AI Assistant**: Integrated with Groq(GenAI) to analyze requests/responses and suggest potential vulnerabilities or payloads.
 *   **🏎️ Race Condition Tester**: Advanced testing for race conditions supporting both **HTTP/1.1** (Last-Byte Sync) and **HTTP/2** (Single Packet Attack).
 *   **🔍 JS File Reader**: Automatically detects and extracts JavaScript files from traffic for static analysis and secret hunting.
 *   **🧩 Decoder**: Built-in utilities to quickly encode/decode data (Base64, URL, Hex, etc.).
