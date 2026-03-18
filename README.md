@@ -92,3 +92,5 @@ python main.py
 6.  **Modify:** The tool will show the intercepted request. You can modify the parameters in the body (e.g., change the `username` or `password`).
 7.  **Forward:** Click "Forward" to send the modified request to the server.
 8.  **Repeater:** Right-click on any request in the history table and select "Send to Repeater". Go to the "Repeater" tab, modify the request further, and click "Send" to see the response.
+=======
+# Burp2Proxy
