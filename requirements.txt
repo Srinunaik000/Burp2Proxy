@@ -1,0 +1,9 @@
+mitmproxy
+tkhtmlview
+Pillow<10.0.0
+google-genai
+requests
+zstandard
+brotli
+PyJWT
+beautifulsoup4
