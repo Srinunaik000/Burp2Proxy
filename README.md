@@ -10,7 +10,7 @@ Burp2Proxy is a powerful, Python-based web interception proxy designed for penet
 
 *   **🛡️ HTTP/HTTPS Proxy**: Intercept, inspect, and modify web traffic in real-time. Supports full HTTPS decryption.
 *   **🔁 Repeater**: Manually modify and resend requests to test for vulnerabilities like SQL Injection, XSS, and IDOR.
-*   **🤖 AI Assistant**: Integrated with Groq(GenAI) to analyze requests/responses and suggest potential vulnerabilities or payloads.
+*   **🤖 AI Assistant**: Integrated with Google Gemini (GenAI) to analyze requests/responses and suggest potential vulnerabilities or payloads.
 *   **🏎️ Race Condition Tester**: Advanced testing for race conditions supporting both **HTTP/1.1** (Last-Byte Sync) and **HTTP/2** (Single Packet Attack).
 *   **🔍 JS File Reader**: Automatically detects and extracts JavaScript files from traffic for static analysis and secret hunting.
 *   **🧩 Decoder**: Built-in utilities to quickly encode/decode data (Base64, URL, Hex, etc.).
@@ -85,7 +85,14 @@ Set your browser (or a tool like FoxyProxy) to route traffic through the proxy:
 *   **IP:** `127.0.0.1`
 *   **Port:** `8080`
 
-### 3. Start Hacking!
+### 3. Configure AI Assistant (Optional)
+To use the **AI Assistant** feature:
+1.  Sign up at [Groq Cloud](https://console.groq.com/) to get a free API key.
+2.  Open the tool and go to the **Configure** tab.
+3.  Paste your API key into the "Groq API Key" field and click **Save**.
+    *   *Note: Without this key, the AI analysis features will not function.*
+
+### 4. Start Hacking!
 *   **Proxy Tab:** See live traffic. Click "Intercept" to pause requests.
 *   **Repeater:** Right-click any request in the Proxy history and select "Send to Repeater".
 *   **Race Condition:** Configure your target request and select the engine (HTTP/1.1 or H2) to test for race windows.
