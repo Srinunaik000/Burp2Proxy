@@ -1,95 +1,107 @@
 # Burp2Proxy
 
-A minimal, lightweight HTTP/HTTPS interception proxy for Windows, designed for bug bounty hunters with low-spec laptops. It provides only the essential features to avoid the bloat and performance overhead of tools like Burp Suite.
+**A Lightweight, Feature-Rich HTTP/HTTPS Proxy for Security Testing**
 
-## Features
-- HTTP/HTTPS Proxy Server
-- Intercept and modify requests/responses
-- Repeater for manual request testing
-- In-memory request history
+Burp2Proxy is a powerful, Python-based web interception proxy designed for penetration testers and bug bounty hunters. It serves as a lightweight alternative to heavier suites, offering essential testing tools wrapped in a clean, native interface. Optimized for performance, it runs smoothly even on low-resource hardware.
 
-## Setup Instructions
+---
 
-Follow these steps carefully to set up the tool.
+## 🚀 Key Features
 
-### 1. Install Dependencies
+*   **🛡️ HTTP/HTTPS Proxy**: Intercept, inspect, and modify web traffic in real-time. Supports full HTTPS decryption.
+*   **🔁 Repeater**: Manually modify and resend requests to test for vulnerabilities like SQL Injection, XSS, and IDOR.
+*   **🤖 AI Assistant**: Integrated with Google Gemini (GenAI) to analyze requests/responses and suggest potential vulnerabilities or payloads.
+*   **🏎️ Race Condition Tester**: Advanced testing for race conditions supporting both **HTTP/1.1** (Last-Byte Sync) and **HTTP/2** (Single Packet Attack).
+*   **🔍 JS File Reader**: Automatically detects and extracts JavaScript files from traffic for static analysis and secret hunting.
+*   **🧩 Decoder**: Built-in utilities to quickly encode/decode data (Base64, URL, Hex, etc.).
+*   **rules Match & Replace**: Define regex rules to automatically modify headers, bodies, or parameters on the fly (e.g., for bypassing WAFs or altering privileges).
+*   **🕷️ Crawler**: A multi-threaded web crawler to map out target applications.
 
-First, install the required Python library. It's recommended to use a virtual environment.
+---
 
+## 🛠️ Installation
+
+### Prerequisites
+*   **Python 3.12+**
+*   **Windows, Linux, or macOS**
+
+### 1. Clone the Repository
 ```bash
-# Create and activate a virtual environment (optional but recommended)
-python -m venv venv
-venv\\Scripts\\activate
+git clone https://github.com/yourusername/Burp2Proxy.git
+cd Burp2Proxy
+```
 
-# Install the required package
+### 2. Set Up a Virtual Environment (Recommended)
+It's best to keep dependencies isolated.
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Linux/macOS
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Generate the CA Certificate
+---
 
-The tool uses the `mitmproxy` library, which requires a custom Certificate Authority (CA) to be installed on your machine to intercept HTTPS traffic.
+## 🔐 Certificate Setup (Important!)
 
-The easiest way to generate the certificate is to run `mitmproxy` once.
+To intercept HTTPS traffic (which is most of the web), you must install the **mitmproxy** Certificate Authority (CA).
 
-1.  Open your terminal (the one where you installed the requirements).
-2.  Run the following command:
+1.  **Generate the Certificate:**
+    Run the tool once to generate the keys.
     ```bash
-    mitmproxy
+    python main.py
     ```
-3.  Wait for it to load (you'll see a console UI). Once it's running, you can immediately shut it down by pressing `q` and then `y`.
+    *If it asks about certificates, close the application.*
 
-This one-time action creates the necessary CA files in your user directory at `C:\\Users\\<YourUsername>\\.mitmproxy\\`. The tool will use the `mitmproxy-ca.pem` file from this folder.
+2.  **Locate the Certificate:**
+    The certificate is created in your user folder:
+    *   **Windows:** `C:\Users\<YourName>\.mitmproxy\mitmproxy-ca-cert.pem`
+    *   **Linux/Mac:** `~/.mitmproxy/mitmproxy-ca-cert.pem`
 
-### 3. Install the CA Certificate in Windows
+3.  **Install/Trust the Certificate:**
+    *   **Windows:** Double-click `mitmproxy-ca-cert.p12` (or `.pem`), choose "Install Certificate" -> "Current User" -> "Place all certificates in the following store" -> **"Trusted Root Certification Authorities"**.
+    *   **Firefox:** Settings -> Privacy & Security -> Certificates -> View Certificates -> Import -> Select the `.pem` file -> Check "Trust this CA to identify websites".
+    *   **Chrome/Edge:** Uses the Windows system store (step above).
 
-You must install the generated CA certificate and trust it to avoid constant browser warnings. These steps work for Chrome, Edge, and other system-aware browsers.
+---
 
-1.  Press `Win + R`, type `certmgr.msc`, and press Enter. This opens the Windows Certificate Manager.
-2.  In the left pane, right-click on **Trusted Root Certification Authorities** and go to **All Tasks > Import...**.
-3.  The Certificate Import Wizard will open. Click **Next**.
-4.  Click **Browse...** and navigate to your user folder. You will need to enable viewing hidden files. Go to `C:\\Users\\<YourUsername>\\.mitmproxy\\`.
-5.  In the file dialog, change the file type from "X.509..." to **"All Files (*.*)"**.
-6.  Select `mitmproxy-ca.pem` and click **Open**, then **Next**.
-7.  Ensure the "Certificate Store" is set to **Trusted Root Certification Authorities**. Click **Next**.
-8.  Click **Finish**. You may see a security warning; click **Yes** to install the certificate.
+## 🎮 Usage
 
-#### **For Firefox Users**
-Firefox uses its own certificate store. You must perform these additional steps:
-1. In Firefox, go to **Settings**.
-2. Search for "certificates" and click the **View Certificates...** button.
-3. Select the **Authorities** tab and click **Import...**.
-4. Navigate to `C:\\Users\\<YourUsername>\\.mitmproxy\\` and select `mitmproxy-ca.pem`.
-5. In the dialog that appears, check the box for **"Trust this CA to identify websites."** and click **OK**.
-6. Restart Firefox.
-
-### 4. Configure Your Browser Proxy
-
-You need to tell your browser to send its traffic through the proxy tool.
-
-1.  The proxy will run on **`127.0.0.1`** at port **`8080`**.
-2.  Configure your browser's proxy settings to use this address for both HTTP and HTTPS.
-    *   **In Windows Settings:** Go to **Settings > Network & Internet > Proxy**.
-    *   Turn on **"Use a proxy server"**.
-    *   Set the Address to `127.0.0.1` and Port to `8080`.
-    *   Click **Save**.
-    *   **Note:** This will proxy all your system traffic. Use a browser extension like FoxyProxy for more granular control.
-
-## How to Run the Tool
-
-Once you have completed the setup, you can run the application:
-
+### 1. Start the Tool
 ```bash
 python main.py
 ```
 
-## Usage Guide (Example)
+### 2. Configure Your Browser
+Set your browser (or a tool like FoxyProxy) to route traffic through the proxy:
+*   **IP:** `127.0.0.1`
+*   **Port:** `8080`
 
-1.  **Start the Tool:** Run `python main.py`.
-2.  **Browse:** Open your configured browser and navigate to a login page (e.g., `http://testphp.vulnweb.com/login.php`).
-3.  **View Traffic:** You will see the requests appearing in the "Proxy" tab's history table.
-4.  **Intercept:** Click the "Intercept is OFF" button to enable interception. It will turn to "Intercept is ON".
-5.  **Trigger Request:** Submit the login form in your browser. The browser will hang, waiting for the request to be forwarded.
-6.  **Modify:** The tool will show the intercepted request. You can modify the parameters in the body (e.g., change the `username` or `password`).
-7.  **Forward:** Click "Forward" to send the modified request to the server.
-8.  **Repeater:** Right-click on any request in the history table and select "Send to Repeater". Go to the "Repeater" tab, modify the request further, and click "Send" to see the response.
-=======
+### 3. Start Hacking!
+*   **Proxy Tab:** See live traffic. Click "Intercept" to pause requests.
+*   **Repeater:** Right-click any request in the Proxy history and select "Send to Repeater".
+*   **Race Condition:** Configure your target request and select the engine (HTTP/1.1 or H2) to test for race windows.
+*   **AI Assistant:** Use the AI tab to analyze selected requests for insights.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have ideas for new features or bug fixes:
+1.  Fork the repo.
+2.  Create a new branch (`git checkout -b feature-name`).
+3.  Commit your changes.
+4.  Push to the branch and submit a Pull Request.
+
+## ⚠️ Disclaimer
+
+**This tool is for educational purposes and authorized security testing only.**
+The developers are not responsible for any misuse or damage caused by this program. Always obtain permission before testing any system you do not own.
